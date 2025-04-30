@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do</title>
+</head>
+<body>
+    <div id="content">
+        <div id="sidebar">
+            <!-- project list goes here -->
+            <form action="">
+                <input type="text" name="project-title" id="project-title" class="project-title" placeholder="Add Project">
+                <button type="button" class="add-project">Add</button>
+            </form>
+        </div>
+        <div id="task-list">
+            <!-- task list goes here -->
+        </div>
+        <dialog id="add-task-dialog-box">
+            <form action="">
+                <input type="text" id="task-title" class="task-title" placeholder="Title">
+                <textarea id="description" class="description" placeholder="Task Description"></textarea>
+                <input type="date" id="due-date" class="due-date">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority">
+                    <option value="not urgent">Not Urgent</option>
+                    <option value="urgent">Urgent</option>
+                </select>
+                <label for="priority">Status</label>
+                <select id="status" name="status">
+                    <option value="completed">Completed</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="not started">Not Started</option>
+                </select>
+                <button type="button" id="close">Close</button>
+                <button type="submit" id="submit">Add Task</button>
+            </form>
+        </dialog>
+    </div>
+</body>
+</html>
