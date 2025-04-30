@@ -39,6 +39,8 @@ addProjectBtn.addEventListener('click', () => {
 })
 
 let currentProject = inbox;
+let currentTask = currentProject.tasks[0];
+let editingTaskId = null;
 
 sidebar.addEventListener('click', (event) => {
     const selectedDiv = event.target.closest("[data-id]");
@@ -53,9 +55,38 @@ const taskList = document.getElementById("task-list");
 const dialog = document.getElementById("add-task-dialog-box");
 
 taskList.addEventListener('click', (event) => {
-    const addTaskbtn = event.target.closest(".add-task-btn");
-    if(!addTaskbtn) return;
-    dialog.showModal();
+    const addTaskBtn = event.target.closest(".add-task-btn");
+    const editTaskBtn = event.target.closest(".edit-task");
+    const deleteTaskBtn = event.target.closest(".delete-task");
+
+    if (addTaskBtn) {
+        dialog.showModal();
+        return;
+    } 
+
+    const currentTaskDiv = event.target.closest("[data-id]");
+    if (!currentTaskDiv) return;
+    currentTask = currentProject.tasks.find(task => task.id === currentTaskDiv.dataset.id);
+
+    if(editTaskBtn) {
+        dialog.showModal();
+        addTaskDialogBtn.textContent = "Save Changes";
+        editingTaskId = currentTask.id;
+
+        taskTitleInput.value = currentTask.title;
+        taskDescriptionInput.value = currentTask.description;
+        dueDateInput.value = currentTask.dueDate;
+        priorityInput.value = currentTask.priority;
+        statusInput.value = currentTask.status;
+        
+        return;
+    }
+
+    if(deleteTaskBtn) {
+        const index = currentProject.tasks.indexOf(currentTask);
+        currentProject.deleteTask(index);
+        renderTasks(currentProject.tasks);
+    }
 })
 
 const taskTitleInput = document.getElementById("task-title");
@@ -73,14 +104,29 @@ addTaskDialogBtn.addEventListener('click', (e) => {
         alert("Task title is required");
         return;
     }
-    const task = new Task(taskTitleInput.value, taskDescriptionInput.value, dueDateInput.value, priorityInput.value, statusInput.value);
-    currentProject.addTask(task);
+
+    if(editingTaskId) {
+        const task = currentProject.tasks.find(t => t.id === editingTaskId);
+        if(task) {
+            task.title = taskTitleInput.value;
+            task.description = taskDescriptionInput.value;
+            task.dueDate = dueDateInput.value;
+            task.priority = priorityInput.value;
+            task.status = statusInput.value;
+        }
+        editingTaskId = null;
+        addTaskDialogBtn.textContent = "Add Task";
+    } else {
+        const task = new Task(taskTitleInput.value, taskDescriptionInput.value, dueDateInput.value, priorityInput.value, statusInput.value);
+        currentProject.addTask(task);
+    }
+
     taskTitleInput.value = "";
     taskDescriptionInput.value = "";
     dueDateInput.value = "";
     priorityInput.value = "not urgent";
     statusInput.value = "not started";
-    console.log(currentProject.tasks);
+    
     renderTasks(currentProject.tasks);
     dialog.close();
 })

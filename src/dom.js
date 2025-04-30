@@ -21,14 +21,18 @@ export function renderTasks(tasks) {
     taskList.textContent = "";
     tasks.forEach(task => {
         const div = document.createElement("div");
+        div.setAttribute("data-id", `${task.id}`);
         div.innerHTML = `
             <h3 class="task-title">${task.title}</h3>
+            <button type=button class="edit-task">Edit</button>
+            <button type=button class="delete-task">Delete</button>
             <ul>
                 <li>${task.description}</li>
                 <li>${task.dueDate}</li>
                 <li>${task.priority}</li>
                 <li>${task.status}</li>
-            </ul>        `
+            </ul>        
+            `
         taskList.appendChild(div);
     });
 
