@@ -20,3 +20,20 @@
     padding: 8px;
     border-radius: 4px;
 }
+
+.frontline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.first-div {
+    display: flex;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+    opacity: 0.6;
+}
+  
